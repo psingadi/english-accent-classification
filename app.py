@@ -100,3 +100,12 @@ def internal_error(e):
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
+# Add Streamlit interface at the bottom
+if __name__ == "__main__" and "streamlit" in __file__:
+    # Streamlit interface code here
+    import streamlit as st
+    # Your Streamlit UI code
+else:
+    # Original Flask code
+    if __name__ == '__main__':
+        app.run(debug=True, host='0.0.0.0', port=5000)

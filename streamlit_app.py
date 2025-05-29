@@ -140,24 +140,24 @@ if input_method == "📁 Upload File":
         os.unlink(tmp_path)
 
 else:  # URL Input
-    # st.markdown("#### Enter Video URL")
+    st.markdown("#### Enter Video URL")
     
     # URL input with examples
     col_url1, col_url2 = st.columns([3, 1])
     
-    # with col_url1:
-    #     video_url = st.text_input(
-    #         "Video URL:",
-    #         placeholder="https://www.youtube.com/watch?v=... or https://www.loom.com/share/...",
-    #         help="Paste the URL of a video containing English speech"
-    #     )
+    with col_url1:
+        video_url = st.text_input(
+            "Video URL:",
+            placeholder="https://www.youtube.com/watch?v=... or https://www.loom.com/share/...",
+            help="Paste the URL of a video containing English speech"
+        )
     
-    # with col_url2:
-    #     st.markdown("**Supported URLs:**")
-    #     st.markdown("• YouTube videos")
-    #     st.markdown("• Loom recordings")
-    #     st.markdown("• Direct video files")
-    #     st.markdown("• MP4/AVI/MOV links")
+    with col_url2:
+        st.markdown("**Supported URLs:**")
+        st.markdown("• YouTube videos")
+        st.markdown("• Loom recordings")
+        st.markdown("• Direct video files")
+        st.markdown("• MP4/AVI/MOV links")
     
     # Example URLs
     st.markdown("##### 📝 Example URLs:")

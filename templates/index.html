@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Accent Detection Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1><i class="fas fa-microphone"></i> English Accent Detection</h1>
+            <p>Upload a video or audio file, or provide a URL to analyze English accent patterns for hiring assessment</p>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <div class="upload-tabs">
+                <button class="tab-button active" data-tab="file-upload">
+                    <i class="fas fa-upload"></i> Upload File
+                </button>
+                <button class="tab-button" data-tab="url-input">
+                    <i class="fas fa-link"></i> Video URL
+                </button>
+            </div>
+
+            <!-- File Upload Tab -->
+            <div id="file-upload" class="tab-content active">
+                <form id="file-form" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="form-label">Select Video or Audio File</label>
+                        <div class="file-upload" id="file-drop-zone">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <h3>Drop your file here or click to browse</h3>
+                            <p>Supports: MP4, AVI, MOV, WAV, MP3, M4A (Max: 100MB)</p>
+                            <input type="file" id="file-input" name="file" accept="video/*,audio/*" style="display: none;">
+                        </div>
+                        <div id="file-info" style="display: none; margin-top: 1rem;">
+                            <div class="alert alert-success">
+                                <i class="fas fa-check-circle"></i>
+                                <span id="file-name"></span> - <span id="file-size"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="analyze-file-btn">
+                        <i class="fas fa-play"></i> Analyze Accent
+                    </button>
+                </form>
+            </div>
+
+            <!-- URL Input Tab -->
+            <div id="url-input" class="tab-content">
+                <form id="url-form">
+                    <div class="form-group">
+                        <label for="video-url" class="form-label">Video URL</label>
+                        <input 
+                            type="url" 
+                            id="video-url" 
+                            name="video_url" 
+                            class="form-input" 
+                            placeholder="https://www.youtube.com/watch?v=... or https://www.loom.com/share/..."
+                            required
+                        >
+                        <small class="form-help">Supports YouTube, Loom, and direct video file URLs</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="analyze-url-btn">
+                        <i class="fas fa-play"></i> Analyze Accent
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Loading Section -->
+        <div class="loading" id="loading-section">
+            <div class="spinner"></div>
+            <h3>Processing your audio...</h3>
+            <p id="loading-message">This may take a few moments depending on file size</p>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results" id="results-section">
+            <div class="result-header">
+                <h2><i class="fas fa-chart-bar"></i> Accent Analysis Results</h2>
+                <div class="accent-result" id="accent-result">American English</div>
+                <div class="confidence-score" id="confidence-score">Confidence: 85.3%</div>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" id="confidence-fill"></div>
+                </div>
+            </div>
+
+            <!-- Assessment Grid -->
+            <div class="assessment-grid">
+                <div class="assessment-card">
+                    <h3><i class="fas fa-globe"></i> Accent Classification</h3>
+                    <div class="value" id="accent-display">American English</div>
+                    <div class="description" id="accent-description">High confidence classification</div>
+                </div>
+
+                <div class="assessment-card">
+                    <h3><i class="fas fa-user-check"></i> Native English</h3>
+                    <div class="value" id="native-status">Yes</div>
+                    <div class="description">Detected as native English speaker</div>
+                </div>
+
+                <div class="assessment-card">
+                    <h3><i class="fas fa-clock"></i> Audio Duration</h3>
+                    <div class="value" id="audio-duration">45.2 seconds</div>
+                    <div class="description" id="duration-quality">Good sample length</div>
+                </div>
+
+                <div class="assessment-card">
+                    <h3><i class="fas fa-robot"></i> Automation Suitable</h3>
+                    <div class="value" id="automation-status">Yes</div>
+                    <div class="description" id="automation-description">Suitable for automated screening</div>
+                </div>
+            </div>
+
+            <!-- Hiring Recommendation -->
+            <div class="alert" id="hiring-recommendation">
+                <h4><i class="fas fa-briefcase"></i> Hiring Recommendation</h4>
+                <p id="recommendation-text">High confidence classification - suitable for automated screening</p>
+            </div>
+
+            <!-- Top Predictions -->
+            <div class="top-predictions">
+                <h3><i class="fas fa-list-ol"></i> Top Accent Predictions</h3>
+                <div id="predictions-list">
+                    <!-- Predictions will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-primary" onclick="resetForm()">
+                    <i class="fas fa-redo"></i> Analyze Another
+                </button>
+            </div>
+        </div>
+
+        <!-- Error Section -->
+        <div class="alert alert-danger" id="error-section" style="display: none;">
+            <h4><i class="fas fa-exclamation-triangle"></i> Error</h4>
+            <p id="error-message">Something went wrong. Please try again.</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

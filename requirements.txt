@@ -1,0 +1,11 @@
+Flask==3.0.0
+gunicorn==21.2.0
+torch==2.0.1+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+torchaudio==2.0.2+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+librosa==0.10.1
+speechbrain==0.5.16
+yt-dlp==2023.9.24
+pydub==0.25.1
+requests==2.31.0
+numpy==1.24.3
+Werkzeug==2.3.7

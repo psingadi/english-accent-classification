@@ -1,11 +1,4 @@
 Flask==3.0.3
-Werkzeug==3.0.3
 gunicorn==22.0.0
-torch==2.1.0
-torchaudio==2.1.0
-librosa==0.10.2
-speechbrain==1.0.0
-yt-dlp==2024.5.27
-pydub==0.25.1
 requests==2.32.0
 numpy==1.26.4
